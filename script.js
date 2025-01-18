@@ -24,24 +24,32 @@ function showMeme() {
   container.appendChild(newImg);
 }
 
-/**
- * TODO:
- * - Show a random joke in the correct location
- * - Never show more than 1 joke at a time
- */
 function showJoke() {
   // Value is a string representing the joke
   const randomJokeText = getRandomData("jokes");
+  const container = document.querySelector(".joke-content");
+  const newP = document.createElement('p');
+  newP.textContent = randomJokeText;
+
+  clearAll();
+
+  container.appendChild(newP);
 }
 
-/**
- * TODO:
- * - Show a random quote in the correct location
- * - Never show more than 1 quote at a time
- */
 function showQuote() {
   // Value should be in format: { quote: '', author: '' }
   const randomQuote = getRandomData("quotes");
+  const container = document.querySelector(".quote-content");
+  const quote = document.createElement('p');
+  const author = document.createElement('p');
+
+  quote.textContent = randomQuote.quote;
+  author.textContent = "- " + randomQuote.author;
+
+  clearAll();
+
+  container.appendChild(quote);
+  container.appendChild(author);
 }
 
 /**
@@ -53,6 +61,22 @@ function showQuote() {
 function showRiddle() {
   // Value should be in format: { question: '', answer: '' }
   const randomRiddle = getRandomData("riddles");
+  const container = document.querySelector(".riddle-content");
+
+  const {question, answer} = randomRiddle;
+
+  const questionElem = document.createElement('p');
+  questionElem.textContent = question;
+
+  const answerElem = document.createElement('p');
+  answerElem.textContent = 'The answer: ' + answer;
+  answerElem.setAttribute('id', 'riddle-answer');
+  answerElem.hidden = true;
+
+  clearAll();
+
+  container.appendChild(questionElem);
+  container.appendChild(answerElem);
 }
 
 /**
@@ -62,7 +86,19 @@ function showRiddle() {
  *   that the answer is already revealed
  * - If there is a riddle shown but no answer, unhide the answer!
  */
-function revealAnswers() {}
+function revealAnswers() {
+  const riddleContainer = document.querySelector('.riddle-content');
+  const riddle = riddleContainer.querySelector('p');
+  const answer = document.querySelector('#riddle-answer');
+
+  if (riddle && answer.hidden) {
+    answer.hidden = false;
+  } else if (riddle) {
+    alert('The answer is already revealed!');
+  } else {
+    alert('There is no riddle to reveal the answer to!')
+  }
+}
 
 /**
  * This function is used to get random data.  Don't worry about how it works, just know how to use it.  Usage is pre-filled in the functions above already, but here's an explanation of the function anyways.
